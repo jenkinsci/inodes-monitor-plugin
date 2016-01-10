@@ -153,7 +153,7 @@ public class InodesMonitor extends NodeMonitor {
 		 */
 		private String getUsedInodes() {
 			try {
-				Process process = Runtime.getRuntime().exec("df --portability --inodes .");
+				Process process = Runtime.getRuntime().exec("df -P -i .");
 				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 				bufferedReader.readLine(); // Evacuate first line with headers
 				String values = bufferedReader.readLine();
