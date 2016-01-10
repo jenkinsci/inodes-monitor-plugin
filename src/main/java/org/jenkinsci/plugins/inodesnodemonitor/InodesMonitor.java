@@ -161,7 +161,7 @@ public class InodesMonitor extends NodeMonitor {
 				return split[4];
 			}
 			catch (IOException e) {
-				LOGGER.fine("Erreur while running 'df'");
+				LOGGER.fine("Error while running 'df'");
 				return Messages.inodesmonitor_notapplicable_onerror();
 			}
 		}
