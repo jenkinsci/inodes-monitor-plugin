@@ -63,7 +63,7 @@ public class InodesMonitor extends NodeMonitor {
 	@Override
 	public Object data(Computer computer) {
 		String currentValueStr = (String) super.data(computer);
-		if (currentValueStr.contains(Messages.inodesmonitor_notapplicable())) {
+		if (currentValueStr == null || currentValueStr.contains(Messages.inodesmonitor_notapplicable())) {
 			return currentValueStr;
 		}
 		try {
