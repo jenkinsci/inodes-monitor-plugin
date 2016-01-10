@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.inodesnodemonitor;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -153,6 +154,7 @@ public class InodesMonitor extends NodeMonitor {
 		 */
 		private String getUsedInodes() {
 			try {
+				LOGGER.fine("Inodes monitoring: running df command in " + System.getProperty("user.dir"));
 				Process process = Runtime.getRuntime().exec("df -P -i .");
 				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 				bufferedReader.readLine(); // Evacuate first line with headers
