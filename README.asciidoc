@@ -1,0 +1,26 @@
+= Inodes Monitor Plugin
+
+This plugin offers a link:http://javadoc.jenkins-ci.org/hudson/node_monitors/NodeMonitor.html[NodeMonitor]
+implementation for inodes.
+
+It also offers to configure a threshold below which the node will automatically be put on/offline.
+
+NOTE: it only works for Unix/Linux nodes where the `df` command is available.
+
+== Details
+
+Inodes are basically a table for the files of the filesystem.
+On many Linux FS, it has a fixed size. It's *very important to monitor*, like the disk space,
+because the effect is exactly the same: *if you run out of inodes, then you can't write on the disk anymore!*
+
+And if you don't know about it, you may scratch your head quite a long time wondering why Jenkins is telling you there's no more disk space left,
+when you see there's still dozens of GB available...
+
+Basically, the plugin uses the `df` command with the POSIX portability flag:
+
+[source,shell]
+df --portability --inodes .
+
+== Links
+
+* link:https://issues.jenkins-ci.org/browse/JENKINS-24278[JENKINS-24278]
