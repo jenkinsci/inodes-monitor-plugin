@@ -134,7 +134,7 @@ public class InodesMonitor extends NodeMonitor {
 
 		@Override
 		public String call() {
-			if (System.getProperty("os.name").contains("windows")) {
+			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
 				return Messages.inodesmonitor_notapplicable();
 			}
 			return getUsedInodes();
