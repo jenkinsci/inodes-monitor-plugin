@@ -11,7 +11,7 @@
 		<version>1.580.1</version>
 		<relativePath />
 	</parent>
-	<artifactId>inodes-nodemonitor</artifactId>
+	<artifactId>inodes-monitor</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
