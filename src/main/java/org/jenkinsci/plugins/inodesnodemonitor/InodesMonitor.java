@@ -91,7 +91,7 @@ public class InodesMonitor extends NodeMonitor {
 		}
 		catch (ParseException e) {
 			// Shouldn't happen since received value is the one already provided by internal GetInodesUseInPercent
-			throw new IllegalStateException("WTF? Can't parse " + currentValueStr + " as integer percentage");
+			throw new IllegalStateException("WTF? Can't parse " + currentValueStr + " as integer percentage", e);
 		}
 		return currentValueStr;
 	}
@@ -131,41 +131,9 @@ public class InodesMonitor extends NodeMonitor {
 
 	private static class GetInodesUseInPercent extends MasterToSlaveCallable<String, IOException> {
 		private static final long serialVersionUID = 1L;
-		private static final Logger LOGGER = Logger.getLogger(GetInodesUseInPercent.class.getSimpleName());
-
 		@Override
 		public String call() {
-			if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-				return Messages.inodesmonitor_notapplicable();
-			}
-			return getUsedInodes();
-		}
-
-		/**
-		 * Sample output:
-		 *
-		 * <pre>
-		 * $ df --inodes .
-		 * Filesystem                       Inodes  IUsed   IFree IUse% Mounted on
-		 * /dev/mapper/fedora_nhuitre-home 8527872 624603 7903269    8% /home
-		 * </pre>
-		 *
-		 * @return the percentage usage (second line, 5th column)
-		 */
-		private String getUsedInodes() {
-			try {
-				LOGGER.fine("Inodes monitoring: running df command in " + System.getProperty("user.dir"));
-				Process process = Runtime.getRuntime().exec("df -P -i .");
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				bufferedReader.readLine(); // Evacuate first line with headers
-				String values = bufferedReader.readLine();
-				String[] split = values.split(" +");
-				return split[4];
-			}
-			catch (IOException e) {
-				LOGGER.fine("Error while running 'df'");
-				return Messages.inodesmonitor_notapplicable_onerror();
-			}
+			return new DfRunner().getUsedInodesPercentage();
 		}
 	}
 }
