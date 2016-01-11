@@ -1,0 +1,78 @@
+= df sample output on different platforms
+
+== IBM AIX
+
+[source,shell]
+$ df -m .
+Filesystem    MB blocks      Free %Used    Iused %Iused Mounted on
+/dev/fslv03   153600.00 140142.72    9%   215122     1% /ic
+$ df -i  .
+Filesystem    512-blocks      Free %Used    Iused %Iused Mounted on
+/dev/fslv03    314572800 287012288    9%   215122     1% /ic
+$ df -P  .
+Filesystem    512-blocks      Used Available Capacity Mounted on
+/dev/fslv03    314572800  27560520 287012280       9% /ic
+
+== RHEL 6.0
+
+[source,shell]
+$ df -i .
+Sys. de fichiers      Inodes   IUtil.  ILib. IUti% Monté sur
+/dev/mapper/vg01-icprep
+                     2325600  247479 2078121   11% /ic-prep
+$ df -P -i .
+Sys. de fichiers      Inodes   IUtil.  ILib. IUti% Monté sur
+/dev/mapper/vg01-icprep 2325600  247479 2078121   11% /ic-prep
+
+== Mac OS
+
+[source,shell]
+$ df -i -P .
+Filesystem 512-blocks      Used Available Capacity  Mounted on
+/dev/disk1  583329016 492029600  90787416    85%    /
+$ df -i .
+Filesystem 512-blocks      Used Available Capacity   iused    ifree  %iused  Mounted on
+/dev/disk1  583329016 492029600  90787416    85%  61681918 11234207    85%   /
+
+
+== Fedora 23
+
+[source,shell]
+$ df -P .
+Filesystem                      1024-blocks      Used Available Capacity Mounted on
+/dev/mapper/fedora_nhuitre-home   134071584 114002024  13236000      90% /home
+$ df -P -i .
+Filesystem                       Inodes  IUsed   IFree IUse% Mounted on
+/dev/mapper/fedora_nhuitre-home 8527872 626045 7901827    8% /home
+$ df -i .
+Filesystem                       Inodes  IUsed   IFree IUse% Mounted on
+/dev/mapper/fedora_nhuitre-home 8527872 626046 7901826    8% /home
+
+== FreeBsd 10.2
+
+[source,shell]
+$ df -i .
+Filesystem      1K-blocks    Used    Avail Capacity iused   ifree %iused  Mounted on
+/dev/gpt/rootfs  20307196 2354048 16328576    13%  213436 2435010    8%   /
+$ df -P -i .
+Filesystem      512-blocks    Used    Avail Capacity iused   ifree %iused  Mounted on
+/dev/gpt/rootfs   40614392 4708096 32657152    13%  213436 2435010    8%   /
+$ df -P  .
+Filesystem      512-blocks    Used    Avail Capacity  Mounted on
+/dev/gpt/rootfs   40614392 4708096 32657152    13%    /
+$ df -h .
+Filesystem         Size    Used   Avail Capacity  Mounted on
+/dev/gpt/rootfs     19G    2.2G     16G    13%    /
+
+== CoreOS 899.1.0 (alpha)
+
+[source,shell]
+core@coreos-tst ~ $ df -i .
+Filesystem      Inodes IUsed   IFree IUse% Mounted on
+/dev/vda9      4625792   635 4625157    1% /
+core@coreos-tst ~ $ df -P -i .
+Filesystem      Inodes IUsed   IFree IUse% Mounted on
+/dev/vda9      4625792   635 4625157    1% /
+core@coreos-tst ~ $ df -P .
+Filesystem     1024-blocks  Used Available Capacity Mounted on
+/dev/vda9         17897544 22860  17095052       1% /
