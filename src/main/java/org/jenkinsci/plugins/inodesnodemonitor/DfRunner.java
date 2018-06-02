@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.inodesnodemonitor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -26,12 +27,14 @@ class DfRunner {
 
 	private DfCommand findImplementation() {
 		String osName = System.getProperty("os.name");
-		for (String key : IMPLEMENTATIONS.keySet()) {
-			if (osName.toLowerCase().startsWith(key)) {
+
+        for (Map.Entry<String, DfCommand> impl : IMPLEMENTATIONS.entrySet()) {
+            final String key = impl.getKey();
+            if(osName.toLowerCase().startsWith(key)) {
 				LOGGER.info("DfRunner implementation key selected: " + key);
-				return IMPLEMENTATIONS.get(key);
-			}
-		}
+				return impl.getValue();
+            }
+        }
 		return new DefaultDfCommand();
 	}
 
@@ -49,15 +52,20 @@ class DfRunner {
 			try {
 				LOGGER.fine("Inodes monitoring: running '" + command + "' command in " + System.getProperty("user.dir"));
 				Process process = Runtime.getRuntime().exec(command);
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				for (int i = 1; i < line; ++i) {
-					bufferedReader.readLine(); // Evacuating first lines (header...)
-				}
-				String values = bufferedReader.readLine();
-
-				LOGGER.warning("df values output: " + values);
-				String[] split = values.split(" +");
-				return split[column - 1];
+				// Encoding used below could be many ones, as anyway the charset expect for df output is encoded the same in US_ASCII or UTF8 for instance
+				// /me sighs at that confusion between charsets and [character] encoding[s] schemes.
+				try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.US_ASCII))) {
+					for (int i = 1; i < line; ++i) {
+						bufferedReader.readLine(); // Evacuating first lines (header...)
+					}
+                    String values = bufferedReader.readLine();
+					if (values == null) {
+						return Messages.inodesmonitor_notapplicable_onerror();
+					}
+					LOGGER.warning("df values output: " + values);
+                    String[] split = values.split(" +");
+                    return split[column - 1];
+                }
 			}
 			catch (IOException e) {
 				LOGGER.fine("Error while running '" + command + "'");
