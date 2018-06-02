@@ -73,7 +73,7 @@ public class InodesMonitor extends NodeMonitor {
 			String computerName = computer.getName();
 			// master has no nodeName
 			if ("".equals(computer.getName())) {
-				computerName = hudson.model.Messages.Hudson_Computer_DisplayName();
+				computerName = "master";
 			}
 
 			if (currentValue >= parse(inodesPercentThreshold)) {
