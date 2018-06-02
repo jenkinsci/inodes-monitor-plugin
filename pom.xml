@@ -23,15 +23,15 @@
 	<url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
 	<licenses>
 		<license>
-			<name>MIT License</name>
-			<url>http://opensource.org/licenses/MIT</url>
+			<name>LPGL V3</name>
+			<url>https://opensource.org/licenses/LGPL-3.0</url>
 		</license>
 	</licenses>
 	<developers>
 		<developer>
-			<id>bhacker</id>
-			<name>Bob Q. Hacker</name>
-			<email>bhacker@nowhere.net</email>
+			<id>batmat</id>
+			<name>Baptiste Mathus</name>
+			<email>batmat at batmat point net</email>
 		</developer>
 	</developers>
 
