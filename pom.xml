@@ -8,6 +8,7 @@
 		<version>3.13</version>
 		<relativePath />
 	</parent>
+	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>inodes-monitor</artifactId>
 	<version>0.9-SNAPSHOT</version>
 	<packaging>hpi</packaging>
