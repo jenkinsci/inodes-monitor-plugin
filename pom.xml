@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>inodes-monitor</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.5.1</version>
 	<packaging>hpi</packaging>
 
 	<name>Inodes Monitor Plugin</name>
@@ -43,7 +43,7 @@
 		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
 		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
 		<url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
-	  <tag>HEAD</tag>
+	  <tag>inodes-monitor-0.5.1</tag>
   </scm>
 
 	<dependencies>
