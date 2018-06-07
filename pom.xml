@@ -18,7 +18,7 @@
 	This plugin adds a column for inodes usage monitoring for Linux/Unix systems. Like for the existing disk space monitors,
 	it can help put automatically a node offline where not enough inodes are still available.
 	</description>
-	<url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
+	<url>https://wiki.jenkins.io/display/JENKINS/Inodes+Monitor+Plugin</url>
 
 	<properties>
 		<jenkins.version>2.60.1</jenkins.version>
@@ -67,8 +67,5 @@
 			<url>http://repo.jenkins-ci.org/public/</url>
 		</pluginRepository>
 	</pluginRepositories>
-	<!-- If you want to depend on other plugins: <dependencies> <dependency>
-		<groupId>org.jenkins-ci.plugins</groupId> <artifactId>credentials</artifactId>
-		<version>1.9.4</version> </dependency> </dependencies> -->
 
 </project>
