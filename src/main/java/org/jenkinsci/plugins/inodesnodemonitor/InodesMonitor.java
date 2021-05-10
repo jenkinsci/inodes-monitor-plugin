@@ -90,8 +90,8 @@ public class InodesMonitor extends NodeMonitor {
 			}
 		}
 		catch (ParseException e) {
-			// Shouldn't happen since received value is the one already provided by internal GetInodesUseInPercent
-			throw new IllegalStateException("WTF? Can't parse " + currentValueStr + " as integer percentage", e);
+			LOGGER.warning("Can't parse " + currentValueStr + " as integer percentage", e);
+			return "0";
 		}
 		return currentValueStr;
 	}
