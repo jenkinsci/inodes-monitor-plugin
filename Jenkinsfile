@@ -1,5 +1,5 @@
-configurations: [
-[platform: ‘linux’, jdk: 11],
-[platform: ‘windows’, jdk: 11],
+def configurations = [
+  [ platform: "linux", jdk: "11" ],
+  [ platform: "windows", jdk: "11" ]
 ]
-buildPlugin()
+buildPlugin(configurations: configurations)
