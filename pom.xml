@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>3.13</version>
+		<version>4.55</version>
 		<relativePath />
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
@@ -21,8 +21,8 @@
 	<url>https://wiki.jenkins.io/display/JENKINS/Inodes+Monitor+Plugin</url>
 
 	<properties>
-		<jenkins.version>2.60.1</jenkins.version>
-		<java.level>8</java.level>
+		<jenkins.version>2.361.4</jenkins.version>
+		<java.level>11</java.level>
 	</properties>
 
 	<licenses>
@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.4.1</version>
+			<version>3.24.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
