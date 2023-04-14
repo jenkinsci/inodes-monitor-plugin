@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>inodes-monitor</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.5.2</version>
 	<packaging>hpi</packaging>
 
 	<name>Inodes Monitor Plugin</name>
