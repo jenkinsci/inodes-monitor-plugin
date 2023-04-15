@@ -1,9 +1,6 @@
 package org.jenkinsci.plugins.inodesnodemonitor;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
@@ -73,7 +70,7 @@ public class InodesMonitor extends NodeMonitor {
 			String computerName = computer.getName();
 			// master has no nodeName
 			if ("".equals(computer.getName())) {
-				computerName = "master";
+				computerName = "built-in";
 			}
 
 			if (currentValue >= parse(inodesPercentThreshold)) {
@@ -99,7 +96,7 @@ public class InodesMonitor extends NodeMonitor {
 	@Override
 	public final String getColumnCaption() {
 		// Hide to non-admins
-		return Jenkins.getInstance().hasPermission(Jenkins.ADMINISTER) ? super.getColumnCaption() : null;
+		return Jenkins.get().hasPermission(Jenkins.ADMINISTER) ? super.getColumnCaption() : null;
 	}
 
 	@Extension
@@ -127,7 +124,7 @@ public class InodesMonitor extends NodeMonitor {
 		public boolean markOnline(Computer c) {
 			return super.markOnline(c);
 		}
-	};
+	}
 
 	private static class GetInodesUseInPercent extends MasterToSlaveCallable<String, IOException> {
 		private static final long serialVersionUID = 1L;
