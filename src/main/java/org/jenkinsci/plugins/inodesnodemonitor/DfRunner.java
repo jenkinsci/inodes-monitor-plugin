@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 class DfRunner {
 	private static final Logger LOGGER = Logger.getLogger(DfRunner.class.getSimpleName());
 
-	private static Map<String, DfCommand> IMPLEMENTATIONS = new LinkedHashMap<String, DfCommand>();
+	private static Map<String, DfCommand> IMPLEMENTATIONS = new LinkedHashMap<>();
 
 	static {
 		IMPLEMENTATIONS.put("windows", new WindowsDfCommand());

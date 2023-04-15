@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>inodes-monitor</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>${changelist}</version>
 	<packaging>hpi</packaging>
 
 	<name>Inodes Monitor Plugin</name>
@@ -18,10 +18,12 @@
 	This plugin adds a column for inodes usage monitoring for Linux/Unix systems. Like for the existing disk space monitors,
 	it can help put automatically a node offline where not enough inodes are still available.
 	</description>
-	<url>https://wiki.jenkins.io/display/JENKINS/Inodes+Monitor+Plugin</url>
+	<url>https://github.com/${gitHubRepo}</url>
 
 	<properties>
-		<jenkins.version>2.361.4</jenkins.version>
+		<changelist>999999-SNAPSHOT</changelist>
+    	<jenkins.version>2.361.4</jenkins.version>
+    	<gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
 	</properties>
 
 	<licenses>
@@ -39,11 +41,11 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-	  <tag>HEAD</tag>
-  </scm>
+    	<connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+    	<developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+		<tag>${scmTag}</tag>
+		<url>https://github.com/${gitHubRepo}</url>
+    </scm>
 
 	<dependencies>
 		<dependency>

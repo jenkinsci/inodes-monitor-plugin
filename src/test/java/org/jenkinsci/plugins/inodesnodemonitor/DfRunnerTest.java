@@ -1,8 +1,6 @@
 package org.jenkinsci.plugins.inodesnodemonitor;
 
 import hudson.Functions;
-import org.assertj.core.api.Assertions;
-import org.junit.Assume;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
