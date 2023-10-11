@@ -1,6 +1,10 @@
 package org.jenkinsci.plugins.inodesnodemonitor;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+import hudson.node_monitors.AbstractDiskSpaceMonitor;
+import hudson.node_monitors.MonitorOfflineCause;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
@@ -16,6 +20,7 @@ import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
 import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
+import org.kohsuke.stapler.export.ExportedBean;
 
 /**
  * Checks the used percentage of inodes on the FS (Linux/Unix only).
@@ -61,8 +66,9 @@ public class InodesMonitor extends NodeMonitor {
 	@Override
 	public Object data(Computer computer) {
 		String currentValueStr = (String) super.data(computer);
+		Inodes inodes = new Inodes(currentValueStr, inodesPercentThreshold);
 		if (currentValueStr == null || currentValueStr.contains(Messages.inodesmonitor_notapplicable())) {
-			return currentValueStr;
+			return inodes;
 		}
 		try {
 			int currentValue = parse(currentValueStr);
@@ -74,15 +80,16 @@ public class InodesMonitor extends NodeMonitor {
 			}
 
 			if (currentValue >= parse(inodesPercentThreshold)) {
-				OfflineCause offlineCause = OfflineCause.create(Messages._inodesmonitor_markedOffline(computerName, currentState));
-				if (((InodesUseInPercentMonitorDescriptor) getDescriptor()).markOffline(computer, offlineCause)) {
+				inodes.setTriggered(this.getClass(), true);
+				if (((InodesUseInPercentMonitorDescriptor) getDescriptor()).markOffline(computer, inodes)) {
 					String inodesmonitor_markedOffline = Messages.inodesmonitor_markedOffline(computerName, currentState);
 					LOGGER.warning(inodesmonitor_markedOffline);
 				}
 			}
 			else {
-				if (((InodesUseInPercentMonitorDescriptor) getDescriptor()).markOnline(computer)) {
-					LOGGER.warning(Messages.inodesmonitor_markedOnline(computerName, currentState));
+				if (computer.getOfflineCause() instanceof Inodes &&
+								((InodesUseInPercentMonitorDescriptor) getDescriptor()).markOnline(computer)) {
+					LOGGER.info(Messages.inodesmonitor_markedOnline(computerName, currentState));
 				}
 			}
 		}
@@ -90,7 +97,7 @@ public class InodesMonitor extends NodeMonitor {
 			// Shouldn't happen since received value is the one already provided by internal GetInodesUseInPercent
 			throw new IllegalStateException("WTF? Can't parse " + currentValueStr + " as integer percentage", e);
 		}
-		return currentValueStr;
+		return inodes;
 	}
 
 	@Override
@@ -131,6 +138,46 @@ public class InodesMonitor extends NodeMonitor {
 		@Override
 		public String call() {
 			return new DfRunner().getUsedInodesPercentage();
+		}
+	}
+
+	@ExportedBean
+	public static final class Inodes extends MonitorOfflineCause implements Serializable {
+
+		private Class<? extends NodeMonitor> trigger;
+
+		private final String usage;
+
+		private final String threshold;
+
+		private boolean triggered;
+
+		public Inodes(String usage, String threshold) {
+			this.usage = usage;
+			this.threshold = threshold;
+		}
+
+		void setTriggered(Class<? extends NodeMonitor> trigger, boolean triggered) {
+			this.trigger = trigger;
+			this.triggered = triggered;
+		}
+
+		public boolean isTriggered() {
+			return triggered;
+		}
+
+		@NonNull
+		@Override
+		public Class<? extends NodeMonitor> getTrigger() {
+			return trigger;
+		}
+
+		public String getUsage() {
+			return usage;
+		}
+
+		public String toString() {
+			return Messages.inodesmonitor_FreeInodesTooLow(usage, threshold);
 		}
 	}
 }
