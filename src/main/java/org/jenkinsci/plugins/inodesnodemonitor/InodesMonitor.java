@@ -91,7 +91,7 @@ public class InodesMonitor extends NodeMonitor {
 		}
 		catch (ParseException e) {
 			LOGGER.warning("Can't parse " + currentValueStr + " as integer percentage", e);
-			return "0";
+			return "N/A";
 		}
 		return currentValueStr;
 	}
