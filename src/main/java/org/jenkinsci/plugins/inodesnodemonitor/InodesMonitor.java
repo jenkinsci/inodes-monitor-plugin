@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -90,7 +91,7 @@ public class InodesMonitor extends NodeMonitor {
 			}
 		}
 		catch (ParseException e) {
-			LOGGER.warning("Can't parse " + currentValueStr + " as integer percentage", e);
+			LOGGER.log(Level.WARNING, "Can't parse " + currentValueStr + " as integer percentage", e);
 			return "N/A";
 		}
 		return currentValueStr;
