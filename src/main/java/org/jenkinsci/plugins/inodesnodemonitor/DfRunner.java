@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class DfRunner {
@@ -31,7 +32,7 @@ class DfRunner {
         for (Map.Entry<String, DfCommand> impl : IMPLEMENTATIONS.entrySet()) {
             final String key = impl.getKey();
             if(osName.toLowerCase().startsWith(key)) {
-				LOGGER.info("DfRunner implementation key selected: " + key);
+				LOGGER.fine(() -> "DfRunner implementation key selected: " + key);
 				return impl.getValue();
             }
         }
@@ -50,7 +51,7 @@ class DfRunner {
 
 		public String get() {
 			try {
-				LOGGER.fine("Inodes monitoring: running '" + command + "' command in " + System.getProperty("user.dir"));
+				LOGGER.finer(() -> "Inodes monitoring: running '" + command + "' command in " + System.getProperty("user.dir"));
 				Process process = Runtime.getRuntime().exec(command);
 				// Encoding used below could be many ones, as anyway the charset expect for df output is encoded the same in US_ASCII or UTF8 for instance
 				// /me sighs at that confusion between charsets and [character] encoding[s] schemes.
@@ -62,13 +63,13 @@ class DfRunner {
 					if (values == null) {
 						return Messages.inodesmonitor_notapplicable_onerror();
 					}
-					LOGGER.warning("df values output: " + values);
-                    String[] split = values.split(" +");
-                    return split[column - 1];
-                }
+					LOGGER.fine(() -> "df values output: " + values);
+					String[] split = values.split(" +");
+					return split[column - 1];
+				}
 			}
 			catch (IOException e) {
-				LOGGER.fine("Error while running '" + command + "'");
+				LOGGER.log(Level.WARNING, e, () -> "Error while running '" + command + "'");
 				return Messages.inodesmonitor_notapplicable_onerror();
 			}
 		}
