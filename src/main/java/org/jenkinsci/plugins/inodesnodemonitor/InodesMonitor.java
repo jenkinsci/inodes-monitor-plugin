@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -93,8 +94,8 @@ public class InodesMonitor extends NodeMonitor {
 			}
 		}
 		catch (ParseException e) {
-			// Shouldn't happen since received value is the one already provided by internal GetInodesUseInPercent
-			throw new IllegalStateException("WTF? Can't parse " + currentValueStr + " as integer percentage", e);
+			LOGGER.log(Level.WARNING, "Can't parse " + currentValueStr + " as integer percentage", e);
+			return "N/A";
 		}
 		return inodes;
 	}
