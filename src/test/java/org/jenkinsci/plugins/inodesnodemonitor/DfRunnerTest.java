@@ -1,15 +1,15 @@
 package org.jenkinsci.plugins.inodesnodemonitor;
 
 import hudson.Functions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
-public class DfRunnerTest {
+class DfRunnerTest {
 
 	@Test
-	public void get_percentage() throws Exception {
+	void get_percentage() throws Exception {
 		assumeFalse(Functions.isWindows());
 
 		final String usedInodesPercentageStr = new DfRunner().getUsedInodesPercentage();
