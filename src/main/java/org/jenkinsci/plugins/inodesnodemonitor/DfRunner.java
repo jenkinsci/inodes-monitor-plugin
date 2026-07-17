@@ -17,6 +17,7 @@ class DfRunner {
 	static {
 		IMPLEMENTATIONS.put("windows", new WindowsDfCommand());
 		IMPLEMENTATIONS.put("linux", new LinuxDfCommand());
+		IMPLEMENTATIONS.put("sunos", new SunosGnuDfCommand());
 		IMPLEMENTATIONS.put("mac os", new MacOsDfCommand());
 		IMPLEMENTATIONS.put("freebsd", new MacOsDfCommand()); // Same as Mac
 		IMPLEMENTATIONS.put("netbsd", new MacOsDfCommand());  // Same as Mac
@@ -127,6 +128,26 @@ class DfRunner {
 			// procfs                                              8       0        8     0%       0          0     -   /proc
 			// tmpfs                                         7028872      40  7028832     0%      26 2147483621    0%   /mnt/tmpfs
 			super("df -i .", 2, 8);
+		}
+	}
+
+	private static class SunosGnuDfCommand extends DfCommand {
+		SunosGnuDfCommand() {
+			// Recent SunOS and illumos (OmniOS, OpenIndiana) systems do not actually
+			// return any information with stock `df -o i` query, claiming it is not
+			// applicable for any FSType:
+			// oi$ $ df -F zfs -o i
+			// df: operation not applicable for FSType zfs
+			//
+			// However GNU df (if installed into PATH) works:
+			// $ ls -la `which gdf`
+			// lrwxrwxrwx   1 root     root          13 Mar 16  2021 /usr/bin/gdf -> ../gnu/bin/df
+			// $ gdf -i
+			// Filesystem                                                               Inodes   IUsed    IFree IUse% Mounted on
+			// rpool/ROOT/hipster_2024.04-20250906T223202Z                            80494672  218816 80275856    1% /
+			//
+			// FIXME: Ideally we could try several options (df, gdf, /usr/gnu/bin/df etc.)
+			super("gdf -i .", 2, 5);
 		}
 	}
 
